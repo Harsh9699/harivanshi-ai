@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harivanshi AI — Radha Vallabh Spiritual Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c9a96e; --gold-light: #e8c97a; --gold-pale: #f0d898;
+      --bg-deep: #0d0805; --bg-card: rgba(15,9,4,0.98);
+      --text-main: #d4c4a0; --text-user: #e8d5b0;
+      --text-muted: rgba(201,169,110,0.4);
+      --border: rgba(201,169,110,0.2);
+    }
+    html,body { height:100%; background:var(--bg-deep); font-family:'Crimson Pro',Georgia,serif; }
+    body {
+      display:flex; align-items:center; justify-content:center;
+      min-height:100vh; padding:16px;
+      background:
+        radial-gradient(ellipse at 15% 10%,rgba(180,100,30,.13) 0%,transparent 48%),
+        radial-gradient(ellipse at 85% 88%,rgba(150,60,20,.11) 0%,transparent 48%),
+        var(--bg-deep);
+    }
+    .shell {
+      position:relative; width:100%; max-width:640px;
+      height:92vh; max-height:860px;
+      display:flex; flex-direction:column;
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:3px; overflow:hidden;
+      box-shadow:0 0 0 1px rgba(201,169,110,.07),0 28px 90px rgba(0,0,0,.85),inset 0 1px 0 rgba(201,169,110,.12);
+    }
+    .shell::before,.shell::after,.corner-bl,.corner-br {
+      content:''; position:absolute; width:36px; height:36px;
+      opacity:.32; pointer-events:none; z-index:10;
+    }
+    .shell::before { top:8px;left:8px;border-top:1px solid var(--gold);border-left:1px solid var(--gold); }
+    .shell::after  { top:8px;right:8px;border-top:1px solid var(--gold);border-right:1px solid var(--gold); }
+    .corner-bl { bottom:8px;left:8px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold); }
+    .corner-br { bottom:8px;right:8px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold); }
+    .petal { position:absolute;font-size:.85rem;opacity:.18;pointer-events:none;animation:floatPetal 7s ease-in-out infinite;z-index:1; }
+
+    /* Header */
+    .header {
+      flex-shrink:0; padding:18px 28px 13px; text-align:center;
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(180deg,rgba(201,169,110,.07) 0%,transparent 100%);
+      position:relative; z-index:2;
+    }
+    .header-eyebrow { font-family:'Cormorant Garamond',serif;font-size:.62rem;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;opacity:.65;margin-bottom:8px; }
+    .header-title {
+      font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;letter-spacing:.14em;
+      background:linear-gradient(135deg,#e8c97a 0%,#c9a96e 40%,#f0d898 70%,#c9a96e 100%);
+      background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      background-clip:text;animation:shimmer 4s linear infinite;line-height:1.1;
+    }
+    .header-divider { color:var(--gold);font-size:.9rem;letter-spacing:.45em;margin:4px 0;opacity:.6; }
+    .header-sub { font-family:'Cormorant Garamond',serif;font-size:.77rem;color:var(--text-muted);letter-spacing:.2em;font-style:italic; }
+
+    /* Messages */
+    .messages {
+      flex:1;overflow-y:auto;padding:18px 18px 8px;
+      display:flex;flex-direction:column;gap:13px;
+      scrollbar-width:thin;scrollbar-color:rgba(201,169,110,.18) transparent;
+      position:relative;z-index:2;
+    }
+    .messages::-webkit-scrollbar { width:3px; }
+    .messages::-webkit-scrollbar-thumb { background:rgba(201,169,110,.18);border-radius:2px; }
+    .msg-row { display:flex;animation:fadeUp .32s ease forwards; }
+    .msg-row.user { justify-content:flex-end; }
+    .msg-row.bot  { justify-content:flex-start; }
+    .bubble {
+      max-width:82%;padding:11px 16px;font-size:.97rem;line-height:1.72;
+      border-radius:2px;white-space:pre-wrap;word-break:break-word;position:relative;
+    }
+    .bubble.user { background:rgba(201,169,110,.11);border:1px solid rgba(201,169,110,.22);color:var(--text-user);font-style:italic; }
+    .bubble.bot  { background:rgba(255,255,255,.022);border:1px solid rgba(201,169,110,.09);border-left:2px solid rgba(201,169,110,.38);color:var(--text-main);padding-right:44px; }
+
+    /* Speak button */
+    .speak-btn {
+      position:absolute;bottom:8px;right:8px;
+      background:none;border:1px solid rgba(201,169,110,.28);border-radius:2px;
+      color:var(--gold);cursor:pointer;padding:2px 8px;font-size:.72rem;
+      letter-spacing:.05em;transition:all .2s;opacity:.65;line-height:1.5;
+    }
+    .speak-btn:hover { background:rgba(201,169,110,.1);opacity:1; }
+    .speak-btn.speaking { background:rgba(201,169,110,.16);border-color:var(--gold);opacity:1;animation:pulse 1s ease-in-out infinite; }
+
+    /* Typing */
+    .typing-bubble { background:rgba(255,255,255,.022);border:1px solid rgba(201,169,110,.09);border-left:2px solid rgba(201,169,110,.38);border-radius:2px;padding:10px 16px;display:flex;gap:5px;align-items:center; }
+    .dot { width:7px;height:7px;background:var(--gold);border-radius:50%;animation:bounce 1.2s infinite; }
+    .dot:nth-child(2){animation-delay:.2s} .dot:nth-child(3){animation-delay:.4s}
+
+    /* Suggested prompts */
+    .prompts-strip {
+      flex-shrink:0;padding:8px 18px 6px;
+      border-top:1px solid rgba(201,169,110,.1);
+      display:flex;gap:7px;overflow-x:auto;flex-wrap:nowrap;
+      scrollbar-width:none;position:relative;z-index:2;
+    }
+    .prompts-strip::-webkit-scrollbar { display:none; }
+    .prompt-chip {
+      flex-shrink:0;background:rgba(201,169,110,.06);
+      border:1px solid rgba(201,169,110,.22);border-radius:20px;
+      color:rgba(201,169,110,.8);font-family:'Cormorant Garamond',serif;
+      font-size:.78rem;letter-spacing:.05em;padding:5px 13px;
+      cursor:pointer;transition:all .2s;white-space:nowrap;
+    }
+    .prompt-chip:hover { background:rgba(201,169,110,.14);border-color:rgba(201,169,110,.5);color:var(--gold); }
+
+    /* Input */
+    .input-area { flex-shrink:0;padding:10px 18px 16px;border-top:1px solid rgba(201,169,110,.15);background:rgba(201,169,110,.02);position:relative;z-index:2; }
+    .input-row { display:flex;gap:10px;align-items:flex-end;border:1px solid rgba(201,169,110,.22);border-radius:2px;padding:9px 14px;background:rgba(201,169,110,.04);transition:border-color .2s; }
+    .input-row:focus-within { border-color:rgba(201,169,110,.5); }
+    #userInput { flex:1;background:transparent;border:none;outline:none;resize:none;color:var(--text-user);font-family:'Crimson Pro',Georgia,serif;font-size:1rem;line-height:1.5;min-height:24px;max-height:100px;scrollbar-width:none; }
+    #userInput::-webkit-scrollbar { display:none; }
+    #userInput::placeholder { color:var(--text-muted);font-style:italic; }
+    #sendBtn { background:none;border:1px solid rgba(201,169,110,.35);color:var(--gold);cursor:pointer;padding:5px 14px;font-family:'Cormorant Garamond',serif;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;border-radius:1px;transition:all .2s;flex-shrink:0;margin-bottom:1px; }
+    #sendBtn:hover { background:rgba(201,169,110,.11);border-color:rgba(201,169,110,.6); }
+    #sendBtn:disabled { opacity:.28;cursor:not-allowed; }
+    .footer-line { text-align:center;font-size:.64rem;color:var(--text-muted);letter-spacing:.17em;margin-top:8px;font-family:'Cormorant Garamond',serif; }
+
+    @keyframes shimmer { 0%{background-position:-200% center}100%{background-position:200% center} }
+    @keyframes fadeUp  { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
+    @keyframes bounce  { 0%,80%,100%{transform:translateY(0);opacity:.45}40%{transform:translateY(-6px);opacity:1} }
+    @keyframes floatPetal { 0%{transform:translateY(0) rotate(0deg);opacity:.18}50%{transform:translateY(-20px) rotate(180deg);opacity:.07}100%{transform:translateY(0) rotate(360deg);opacity:.18} }
+    @keyframes pulse { 0%,100%{opacity:.8}50%{opacity:1} }
+    @media(max-width:480px){.shell{height:100vh;max-height:100vh;border-radius:0;}body{padding:0;}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <div class="corner-bl"></div><div class="corner-br"></div>
+  <span class="petal" style="top:14%;right:6%;animation-delay:0s">🌸</span>
+  <span class="petal" style="top:44%;left:3%;animation-delay:2.2s">🌺</span>
+  <span class="petal" style="top:71%;right:5%;animation-delay:4.5s">🌸</span>
+
+  <header class="header">
+    <div class="header-eyebrow">✦ Radha Vallabh Sampradaya ✦</div>
+    <div class="header-title">Harivanshi AI</div>
+    <div class="header-divider">✿ ❁ ✿</div>
+    <div class="header-sub">Shri Radha Rani ki Kripa se</div>
+  </header>
+
+  <div class="messages" id="messages"></div>
+  <div class="prompts-strip" id="promptsStrip"></div>
+
+  <div class="input-area">
+    <div class="input-row">
+      <textarea id="userInput" rows="1" placeholder="Apna prashna yahaan likhein... 🙏"></textarea>
+      <button id="sendBtn">Send</button>
+    </div>
+    <div class="footer-line">✦ Radhe Radhe ✦ Jai Shri Radhe ✦</div>
+  </div>
+</div>
+
+<script>
+  const API_KEY = "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";
+
+  const SYSTEM_PROMPT = `You are Harivanshi AI, a humble spiritual guide for devotees of the Radha Vallabh tradition.
+Speak in a tone that is compassionate, peaceful, humble, devotional, and loving — like a gentle satsang guide.
+Core teachings: supreme love for Shri Radha Rani, Bhakti through Radha Naam, humility and surrender, Prem Bhakti over intellectual debate.
+Use simple language, Hinglish (Hindi-English mix), and natural phrases like "Radhe Radhe", "Jai Shri Radhe".
+Never criticize other paths or religions. If unsure, respond humbly.
+For serious life decisions, remind: "Guidance from a living guru is always most valuable."`;
+
+  const GREETING = `Radhe Radhe 🙏\n\nWelcome to Harivanshi AI.\n\nMay the grace of Shri Radha Rani guide your heart.\n\nYou may ask any question about Bhakti, Radha Naam, or the teachings of the saints.`;
+
+  const PROMPTS = [
+    "Radha Naam jap kaise karein?",
+    "Mann restless hai, kya karein?",
+    "Bhakti kaise badhaayein?",
+    "Radha-Krishna ka prem kaisa tha?",
+    "Radha Vallabh Sampradaya kya hai?",
+    "Naam smaran ka mahatva?",
+    "Guru kaise dhundhen?",
+    "Prem Bhakti ka arth kya hai?",
+  ];
+
+  let history = [];
+  let speakingBtn = null;
+  const synth = window.speechSynthesis || null;
+
+  const messagesEl   = document.getElementById('messages');
+  const inputEl      = document.getElementById('userInput');
+  const sendBtn      = document.getElementById('sendBtn');
+  const promptsStrip = document.getElementById('promptsStrip');
+
+  /* — Prompts — */
+  PROMPTS.forEach(p => {
+    const chip = document.createElement('button');
+    chip.className = 'prompt-chip';
+    chip.textContent = p;
+    chip.onclick = () => { inputEl.value = p; resizeTA(); send(); };
+    promptsStrip.appendChild(chip);
+  });
+
+  /* — TTS — */
+  function stopSpeaking() {
+    synth.cancel();
+    if (speakingBtn) { speakingBtn.textContent = '🔊'; speakingBtn.classList.remove('speaking'); speakingBtn = null; }
+  }
+
+  function speak(text, btn) {
+    stopSpeaking();
+    const clean = text.replace(/[\u{1F300}-\u{1FAFF}]/gu,'').replace(/[🙏✿❁✦]/g,'').trim();
+    const utt = new SpeechSynthesisUtterance(clean);
+    const voices = synth.getVoices();
+    utt.voice = voices.find(v=>v.lang.startsWith('hi')) || voices.find(v=>v.lang==='en-IN') || voices.find(v=>v.lang.startsWith('en')) || null;
+    utt.rate = 0.88; utt.pitch = 1.0;
+    btn.textContent = '⏹'; btn.classList.add('speaking'); speakingBtn = btn;
+    utt.onend = utt.onerror = () => { btn.textContent='🔊'; btn.classList.remove('speaking'); speakingBtn=null; };
+    synth.speak(utt);
+  }
+
+  /* — DOM — */
+  function scrollBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
+
+  function addBubble(role, text) {
+    const row = document.createElement('div');
+    row.className = `msg-row ${role==='user'?'user':'bot'}`;
+    const bub = document.createElement('div');
+    bub.className = `bubble ${role==='user'?'user':'bot'}`;
+    bub.textContent = text;
+    if (role === 'bot') {
+      const sb = document.createElement('button');
+      sb.className = 'speak-btn'; sb.title = 'Sunein'; sb.textContent = '🔊';
+      sb.onclick = () => sb.classList.contains('speaking') ? stopSpeaking() : speak(text, sb);
+      bub.appendChild(sb);
+    }
+    row.appendChild(bub); messagesEl.appendChild(row); scrollBottom();
+  }
+
+  function showTyping() {
+    const row = document.createElement('div'); row.className='msg-row bot'; row.id='tyRow';
+    const tb = document.createElement('div'); tb.className='typing-bubble';
+    for(let i=0;i<3;i++){const d=document.createElement('span');d.className='dot';tb.appendChild(d);}
+    row.appendChild(tb); messagesEl.appendChild(row); scrollBottom();
+  }
+  function hideTyping(){const t=document.getElementById('tyRow');if(t)t.remove();}
+
+  function resizeTA(){inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,100)+'px';}
+
+  /* — Send — */
+  async function send() {
+    const text = inputEl.value.trim(); if(!text) return;
+    stopSpeaking(); inputEl.value=''; resizeTA(); sendBtn.disabled=true;
+    addBubble('user', text);
+    history.push({role:'user', content:text});
+    showTyping();
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYSTEM_PROMPT,messages:history})
+      });
+      const data = await res.json(); hideTyping();
+      const reply = data?.content?.[0]?.text || 'Radhe Radhe 🙏 Kripaya dobara puchein.';
+      history.push({role:'assistant',content:reply});
+      addBubble('bot', reply);
+    } catch(e){ hideTyping(); addBubble('bot','Radhe Radhe 🙏 Kuch samasya aayi. Dobara try karein.'); }
+    sendBtn.disabled=false; inputEl.focus();
+  }
+
+  sendBtn.onclick = send;
+  inputEl.addEventListener('keydown', e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+  inputEl.addEventListener('input', resizeTA);
+  if(synth && synth.onvoiceschanged!==undefined) synth.onvoiceschanged=()=>{};
+
+  addBubble('bot', GREETING);
+</script>
+</body>
+</html>
